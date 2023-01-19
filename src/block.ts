@@ -10,7 +10,7 @@ import { FilterMDFiles, createDate, getImgUrl, parseTag } from './utils';
 export class TimelineProcessor {
 
 	async insertTimelineIntoCurrentNote(sourceView: MarkdownView, settings: TimelinesSettings, vaultFiles: TFile[], fileCache: MetadataCache, appVault: Vault) {
-		let editor = sourceView.sourceMode.cmEditor;
+		let editor = sourceView.editor;
 		if (editor) {
 			const source = editor.getValue();
 			let match = RENDER_TIMELINE.exec(source);
@@ -34,7 +34,7 @@ export class TimelineProcessor {
 
 	async run(source: string, el: HTMLElement, settings: TimelinesSettings, vaultFiles: TFile[], fileCache: MetadataCache, appVault: Vault, visTimeline: boolean) {
 
-		let args = {
+		let args: {[index: string]:any} = {
 			tags: '',
 			divHeight: 400,
 			startDate: '-1000',
@@ -61,7 +61,7 @@ export class TimelineProcessor {
 		}
 
 		let tagList: string[] = [];
-		args.tags.split(";").forEach(tag => parseTag(tag, tagList));
+		args.tags.split(";").forEach((tag: string) => parseTag(tag, tagList));
 		tagList.push(settings.timelineTag);
 
 		// Filter all markdown files to only those containing the tag list
