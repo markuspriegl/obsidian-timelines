@@ -2,7 +2,7 @@
     "compilerOptions": {
       "baseUrl": ".",
       "inlineSourceMap": true,
-      "inlineSources": true,
+      "inlineSources": false,
       "module": "ESNext",
       "target": "es6",
       "allowJs": true,
@@ -16,10 +16,10 @@
         "es2015"
       ]
     },
+    //"exclude": ["node_modules", "build", "dist", "example", "rollup.config.js"],
     "include": [
     "src",
     "src/**/*.ts",
-    "@types/**/*.d.ts",
-    "node_modules",
+    "@types/**/*.d.ts"
     ]
   }

@@ -16,6 +16,7 @@ export interface CardContainer {
 	endDate: string;
 	type: string;
 	class: string;
+	tags: string[];
 }
 
 export type NoteData = CardContainer[];

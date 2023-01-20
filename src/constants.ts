@@ -1,7 +1,7 @@
 import type { TimelinesSettings } from './types'
 
 export const DEFAULT_SETTINGS: TimelinesSettings = {
-    timelineTag: 'timeline',
+    timelineTag: 'timeline-1337',
     sortDirection: true
 }
 
