@@ -30,6 +30,7 @@ export default {
         cjs(),
         typescript(),
         postcss({
+            ignore: [ /vis-/ ],
             extract: path.resolve('styles.css'),
             modules: true,
             namedExports: true,

@@ -5,8 +5,9 @@ import { TFile, MarkdownView, MetadataCache, Vault } from 'obsidian';
 import { Timeline } from "vis-timeline/esnext";
 import { DataSet } from "vis-data";
 import { FilterMDFiles, createDate, getImgUrl, parseTag, getNoteTags } from './utils';
+//import "../node_modules/vis-timeline/styles/vis-timeline-graph2d.css";
+import "vis-timeline/styles/vis-timeline-graph2d.css";
 import styles from './styles.css';
-export * from "vis-timeline/esnext";
 
 export class TimelineProcessor {
 
