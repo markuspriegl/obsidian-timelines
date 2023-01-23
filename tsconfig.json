@@ -16,7 +16,6 @@
         "es2015"
       ]
     },
-    //"exclude": ["node_modules", "build", "dist", "example", "rollup.config.js"],
     "include": [
     "src",
     "src/**/*.ts",

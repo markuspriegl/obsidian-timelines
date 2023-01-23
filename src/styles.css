@@ -12,7 +12,7 @@
 }
 
 .timeline-vis {
-    /* empty */
+    border: 1px solid transparent;
 }
 
 .timeline-tags {

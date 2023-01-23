@@ -4,9 +4,9 @@ import { RENDER_TIMELINE } from './constants';
 import { TFile, MarkdownView, MetadataCache, Vault } from 'obsidian';
 import { Timeline } from "vis-timeline/esnext";
 import { DataSet } from "vis-data";
-import "vis-timeline/styles/vis-timeline-graph2d.css";
 import { FilterMDFiles, createDate, getImgUrl, parseTag, getNoteTags } from './utils';
 import styles from './styles.css';
+export * from "vis-timeline/esnext";
 
 export class TimelineProcessor {
 
@@ -73,7 +73,7 @@ export class TimelineProcessor {
 		}
 		// Keep only the files that have the time info
 		let timeline = document.createElement('div');
-		timeline.setAttribute('class', styles['timeline']);
+		timeline.setAttribute('class',styles['timeline']);
 		let timelineNotes = [] as AllNotesData;
 		let timelineDates = [];
 
@@ -101,7 +101,7 @@ export class TimelineProcessor {
 					continue;
 				}
 				// if not title is specified use note name
-				let noteTitle = event.dataset.title ?? file.name;
+				let noteTitle = event.dataset.title ?? file.name.slice(0, -3);
 				console.log('MARKUS event.dataset.class: ' + event.dataset.class);
 				let noteClass = event.dataset.class ?? "";
 				let notePath = '/' + file.path;
@@ -227,13 +227,23 @@ export class TimelineProcessor {
 			return;
 		}
 
+		console.log('MARKUS timevis?: '+visTimeline);
+
 		// Create a DataSet
 		let items = new DataSet([]);
 
+		console.log('MARKUS timelineDates: '+timelineDates.toString);
+		
+
 		timelineDates.forEach(date => {
+
+			console.log('MARKUS using?: '+date);
 
 			// add all events at this date
 			Object.values(timelineNotes[date]).forEach(event => {
+
+				console.log('MARKUS event to this date?: '+event.title??event.path);
+
 				// Create Event Card
 				let noteCard = document.createElement('div');
 				noteCard.className = styles['timeline-card'];
@@ -288,10 +298,12 @@ export class TimelineProcessor {
 				}
 
 				if (start.toString() === 'Invalid Date') {
+					console.log('MARKUS invalid date');
 					return;
 				}
 
 				if ((event.type === "range" || event.type === "background") && end.toString() === 'Invalid Date') {
+					console.log('MARKUS range,bg,end');
 					return;
 				}
 
@@ -305,14 +317,15 @@ export class TimelineProcessor {
 					type: event.type,
 					end: end ?? null
 				});
+				console.log('MARKUS added event; size is now: ' + items.length);
 			});
 		});
 
 		// Configuration for the Timeline
 		let options = {
 			minHeight: +args.divHeight,
-			showCurrentTime: false,
-			showTooltips: false,
+			showCurrentTime: true,
+			showTooltips: true,
 			template: function (item: any) {
 
 				let eventContainer = document.createElement('div');
@@ -320,7 +333,8 @@ export class TimelineProcessor {
 				let eventCard = eventContainer.createDiv();
 				eventCard.outerHTML = item.title;
 				eventContainer.addEventListener('click', event => {
-					let el = (eventContainer.getElementsByClassName('timeline-card')[0] as HTMLElement);
+					let el = (eventContainer.getElementsByClassName(styles['timeline-card'])[0] as HTMLElement);
+					console.log('MARKUS:: timeline-card: ',el,);
 					el.style.setProperty('display', 'block');
 					el.style.setProperty('top', `-${el.clientHeight + 10}px`);
 				});
@@ -333,10 +347,13 @@ export class TimelineProcessor {
 		};
 
 		// Create a Timeline
-		timeline.setAttribute('class', styles['timeline-vis']);
+		console.log('MARKUS:: setattributes ',timeline,);
+		timeline.setAttribute('class', ' vis-timeline ' + styles['timeline-vis']);
+		console.log('MARKUS:: creating object Timeline ',timeline,items,options);
 		new Timeline(timeline, items, options);
 
 		// Replace the selected tags with the timeline html
 		el.appendChild(timeline);
+		console.log('MARKUS:: FIN ');
 	}
 }

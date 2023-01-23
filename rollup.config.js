@@ -22,8 +22,11 @@ export default {
     },
     external: ['obsidian'],
     plugins: [
-        nodeResolve({ browser: true }),
-        peerDepsExternal(),
+        nodeResolve({ jsnext: true,
+            main: true,
+            browser: true }),
+        peerDepsExternal(
+        ),
         cjs(),
         typescript(),
         postcss({
@@ -31,6 +34,7 @@ export default {
             modules: true,
             namedExports: true,
             minimize: true,
+            nodeResolve: true,
             writeDefinitions: true,
             plugins: [
                 cssurl({
